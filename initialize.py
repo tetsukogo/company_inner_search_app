@@ -14,7 +14,9 @@ import unicodedata
 from dotenv import load_dotenv
 import streamlit as st
 from docx import Document
-from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader, Docx2txtLoader, CSVLoader, TextLoader
+from langchain_community.document_loaders import PyMuPDFLoader, Docx2txtLoader, TextLoader
+from langchain_community.document_loaders.web_base import WebBaseLoader
+from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -26,7 +28,6 @@ import constants as ct
 ############################################################
 # 「.env」ファイルで定義した環境変数の読み込み
 load_dotenv()
-
 
 ############################################################
 # 関数定義
@@ -166,7 +167,7 @@ def load_data_sources():
     # 読み込み対象のWebページ一覧に対して処理
     for web_url in ct.WEB_URL_LOAD_TARGETS:
         # 指定のWebページを読み込み
-        loader = WebBaseLoader(web_url)
+        loader = WebBaseLoader(web_url)        
         web_docs = loader.load()
         # for文の外のリストに読み込んだデータソースを追加
         web_docs_all.extend(web_docs)
